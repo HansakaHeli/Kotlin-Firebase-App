@@ -18,27 +18,35 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val textView:TextView = findViewById(R.id.textView)
+        //val textView:TextView = findViewById(R.id.textView)
 
         // Realtime Database reference
         //https://fir-kotlin-b3165-default-rtdb.firebaseio.com
+        // Get reference form google-serveces.json
         database = Firebase.database.reference
 
+        // Writing custom object to firebase
+        val user1 = User("Jack", "123")
+
         // Write data to Firebase
-        database.child("price").setValue("1999 $")
+        database.child("Users").setValue(user1)
 
-        val postListener = object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val gold_price = snapshot.value
-                textView.text = gold_price.toString()
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        }
-
-        database.child("price").addValueEventListener(postListener)
+//        // Write data to Firebase
+//        database.child("price").setValue("1999 $")
+//
+//        val postListener = object : ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                val gold_price = snapshot.value
+//                textView.text = gold_price.toString()
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                TODO("Not yet implemented")
+//            }
+//        }
+//
+//        database.child("price").addValueEventListener(postListener)
 
     }
 }
