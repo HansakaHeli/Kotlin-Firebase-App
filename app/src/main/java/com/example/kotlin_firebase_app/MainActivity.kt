@@ -9,6 +9,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
+import com.google.firebase.database.getValue
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //val textView:TextView = findViewById(R.id.textView)
+        val textView:TextView = findViewById(R.id.textView)
 
         // Realtime Database reference
         //https://fir-kotlin-b3165-default-rtdb.firebaseio.com
@@ -30,6 +31,21 @@ class MainActivity : AppCompatActivity() {
 
         // Write data to Firebase
         database.child("Users").setValue(user1)
+
+        // Reading custom object from firebase
+        val pe = object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val u1 = snapshot.getValue<User>()
+                textView.text = u1.toString()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        }
+
+        database.child("Users").addValueEventListener(pe)
 
 
 //        // Write data to Firebase
